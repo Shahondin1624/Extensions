@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class AbstractSecureTest<X> {
+public class AbstractSecureTest<X> extends AbstractTest {
     private final Supplier<X> functionSupplier;
 
     protected AbstractSecureTest(Supplier<X> functionSupplier) {

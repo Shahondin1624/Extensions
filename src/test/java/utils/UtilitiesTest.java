@@ -1,7 +1,12 @@
 package utils;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,5 +51,22 @@ public class UtilitiesTest {
         result += TimeUnit.MILLISECONDS.toNanos(milliseconds);
         result += nanoseconds;
         return result;
+    }
+
+    @Test
+    public void testErrorLogging() {
+        try {
+            String read = Files.readString(Path.of("/test"));
+        } catch (IOException e) {
+            String stackTrace = Utilities.logError(e);
+            assertStringContains(stackTrace, NoSuchFileException.class.getName());
+            assertStringContains(stackTrace, "/test");
+        }
+    }
+
+    protected void assertStringContains(String containing, String contained) {
+        Assertions.assertNotNull(containing);
+        Assertions.assertNotNull(contained);
+        Assertions.assertTrue(containing.contains(contained));
     }
 }

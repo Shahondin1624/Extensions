@@ -36,6 +36,7 @@ public abstract class DaemonThread implements Stoppable, Named {
 
     @Override
     public void requestShutdown() {
+        log.info("Shutdown was requested");
         shutdownRequested = true;
     }
 
@@ -49,7 +50,7 @@ public abstract class DaemonThread implements Stoppable, Named {
         startCpuClock();
         log.info("Starting {}...", this);
         while (!shutdownRequested) {
-            log.debug("New iteration of {}.{}", this, logCurrentRuntime());
+            log.trace("New iteration of {}.{}", this, logCurrentRuntime());
             try {
                 if (executor != null) {
                     executor.execute(this::executeWork);
@@ -60,11 +61,12 @@ public abstract class DaemonThread implements Stoppable, Named {
                 if (exceptionHandler != null) {
                     exceptionHandler.handleThrowable(t);
                 } else {
-                    log.error("Exception that could not be handled occurred: {} - {}", t.getClass().getSimpleName(), t.getMessage());
+                    log.error("An exception that could not be handled occurred: {}", Utilities.logError(t));
                     lastException = t;
                 }
             }
         }
+        log.info("Finished executing thread...");
     }
 
     @Inject

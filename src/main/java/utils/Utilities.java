@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
 
 public class Utilities {
@@ -34,5 +35,19 @@ public class Utilities {
         formatterTemplate += String.format("%d", leadingZeroes);
         formatterTemplate += "d%s";
         return formatterTemplate;
+    }
+
+    public static String getStackTraceAsString(Throwable t) {
+        StringJoiner stackTrace = new StringJoiner("\n");
+        StackTraceElement[] elements = t.getStackTrace();
+        for (int i = elements.length - 1; i >= 0; i--) {
+            StackTraceElement element = elements[i];
+            stackTrace.add(element.toString());
+        }
+        return stackTrace.toString();
+    }
+
+    public static String logError(Throwable t) {
+        return t.getClass().getName() + ": " + t.getMessage() + "\n" + getStackTraceAsString(t);
     }
 }
