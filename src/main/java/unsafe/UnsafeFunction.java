@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.Function;
 
 @FunctionalInterface
-public interface UnsafeFunction<T, R> extends Function<T, R> {
+public interface UnsafeFunction<T, R> extends Function<T, R>, Unsafe {
     @Override
     default R apply(T t) {
         try {

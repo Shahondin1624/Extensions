@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.BiPredicate;
 
 @FunctionalInterface
-public interface UnsafeBiPredicate<T, U> extends BiPredicate<T, U> {
+public interface UnsafeBiPredicate<T, U> extends BiPredicate<T, U>, Unsafe {
     @Override
     default boolean test(T t, U u) {
         try {

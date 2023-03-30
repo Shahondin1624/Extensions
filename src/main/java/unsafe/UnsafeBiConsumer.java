@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.BiConsumer;
 
 @FunctionalInterface
-public interface UnsafeBiConsumer<T, U> extends BiConsumer<T, U> {
+public interface UnsafeBiConsumer<T, U> extends BiConsumer<T, U>, Unsafe {
     @Override
     default void accept(T t, U u) {
         try {

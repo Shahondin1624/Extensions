@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.Predicate;
 
 @FunctionalInterface
-public interface UnsafePredicate<T> extends Predicate<T> {
+public interface UnsafePredicate<T> extends Predicate<T>, Unsafe {
     @Override
     default boolean test(T t) {
         try {

@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.Supplier;
 
 @FunctionalInterface
-public interface UnsafeSupplier<T> extends Supplier<T> {
+public interface UnsafeSupplier<T> extends Supplier<T>, Unsafe {
     @Override
     default T get() {
         try {

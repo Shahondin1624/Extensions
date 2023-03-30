@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.BiFunction;
 
 @FunctionalInterface
-public interface UnsafeBiFunction<T, U, R> extends BiFunction<T, U, R> {
+public interface UnsafeBiFunction<T, U, R> extends BiFunction<T, U, R>, Unsafe {
     @Override
     default R apply(T t, U u) {
         try {

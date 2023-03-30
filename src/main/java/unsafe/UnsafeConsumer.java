@@ -3,7 +3,7 @@ package unsafe;
 import java.util.function.Consumer;
 
 @FunctionalInterface
-public interface UnsafeConsumer<T> extends Consumer<T> {
+public interface UnsafeConsumer<T> extends Consumer<T>, Unsafe {
     @Override
     default void accept(T t) {
         try {
