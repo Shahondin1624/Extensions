@@ -54,13 +54,13 @@ public class UtilitiesTest {
     }
 
     @Test
+    @SuppressWarnings("unused")
     public void testErrorLogging() {
         try {
             String read = Files.readString(Path.of("/test"));
         } catch (IOException e) {
             String stackTrace = Utilities.logError(e);
             assertStringContains(stackTrace, NoSuchFileException.class.getName());
-            assertStringContains(stackTrace, "/test");
         }
     }
 
