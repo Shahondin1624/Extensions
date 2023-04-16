@@ -20,7 +20,7 @@ dependencies {
 }
 
 test {
-    jvmArgs(['--enable-preview'])
+    jvmArgs(['--enable-preview', '--add-opens', 'java.base/java.lang=ALL-UNNAMED'])
     useJUnitPlatform()
 }
 

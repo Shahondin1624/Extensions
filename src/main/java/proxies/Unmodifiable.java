@@ -16,17 +16,64 @@ import java.util.stream.Stream;
 
 public class Unmodifiable {
 
-
+    /**
+     * returns an unmodifiable copy of the original object. As the original is cloned by reflection, changes to the original
+     * after the creation of its unmodifiable clone will not carry over. Note that the immutability is achieved by dirty-checking
+     * whether the clone has changed after each method call and thus changes to objects inside the copy will not be detected
+     *
+     * @param original object of which an unmodifiable copy should be created
+     * @param <T>      generic type of 'original'
+     * @return an unmodifiable copy of 'original'
+     */
     public static <T> T of(T original) {
-        MethodInterceptor interceptor = Proxies.interceptor((obj, args, proxy) -> {
-            T copy = clone(original);
+        MethodInterceptor interceptor = createInterceptor(() -> clone(original));
+        return Proxies.proxy(original, interceptor);
+    }
+
+    public static <T> T ofFullDepth(T original) { //TODO not yet working
+        MethodInterceptor interceptor = createInterceptor(() -> clone(original, Integer.MAX_VALUE));
+        return Proxies.proxy(original, interceptor);
+    }
+
+    public static <T> T ofDepth(T original, int depth) { //TODO not yet working
+        MethodInterceptor interceptor = createInterceptor(() -> clone(original, depth));
+        return Proxies.proxy(original, interceptor);
+    }
+
+    private static <T> MethodInterceptor createInterceptor(Supplier<T> copyFunction) {
+        return Proxies.interceptor((obj, args, proxy) -> {
+            T copy = copyFunction.get();
             Object result = proxy.invoke(copy, args);
             if (dirtyCheck(copy, obj)) {
                 throw new IllegalModificationException("Calling %s would change this object, which is not permitted!", proxy.getSuperName());
             }
             return result;
         });
-        return Proxies.proxy(original, interceptor);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T clone(T original, int depth) {
+        Class<T> clazz = (Class<T>) original.getClass();
+        try {
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            T newInstance = constructor.newInstance();
+            constructor.setAccessible(false);
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                Object originalValue = field.get(original);
+                Object clone = originalValue;
+                if (depth > 0) {
+                    clone = ofDepth(originalValue, depth - 1);
+                }
+                field.set(newInstance, clone);
+                field.setAccessible(false);
+            }
+            return newInstance;
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                 IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

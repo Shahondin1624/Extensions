@@ -60,6 +60,34 @@ public class UnmodifiableTest {
     }
 
     @Test
+    public void testUnmodifiableWithDepth2() {
+        TestDto dto = new TestDto();
+        TestDtoDepth outer = new TestDtoDepth();
+        outer.setDto(dto);
+        TestDtoDepth unmodifiable = Unmodifiable.ofDepth(outer, 2);
+        Assertions.assertThrows(IllegalModificationException.class, () -> {
+            unmodifiable.setName("Test");
+        });
+        Assertions.assertThrows(IllegalModificationException.class, () -> {
+            unmodifiable.getDto().setName("Test");
+        });
+    }
+
+    @Test
+    public void testUnmodifiableWithFullDepth() {
+        TestDto dto = new TestDto();
+        TestDtoDepth outer = new TestDtoDepth();
+        outer.setDto(dto);
+        TestDtoDepth unmodifiable = Unmodifiable.ofFullDepth(outer);
+        Assertions.assertThrows(IllegalModificationException.class, () -> {
+            unmodifiable.setName("Test");
+        });
+        Assertions.assertThrows(IllegalModificationException.class, () -> {
+            unmodifiable.getDto().setName("Test");
+        });
+    }
+
+    @Test
     public void testLockCollection() {
         Assertions.assertThrows(ObjectLockedException.class, () -> {
             List<String> list = new ArrayList<>();
