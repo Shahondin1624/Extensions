@@ -1,9 +1,8 @@
 package once;
 
+import boxedtypes.option.Option;
 import unsafe.UnsafeRunnable;
 import unsafe.UnsafeSupplier;
-
-import java.util.Optional;
 
 /**
  * Provides an easy way to ensure code is only called once. Can return a value or not, depending on requirements.
@@ -12,7 +11,7 @@ import java.util.Optional;
  * @param <T> type of optional return value
  */
 public interface Once<T> {
-    Optional<T> call();
+    Option<T> call();
 
     boolean wasAlreadyCalled();
 
@@ -36,12 +35,12 @@ public interface Once<T> {
         }
 
         @Override
-        public Optional<T> call() {
+        public Option<T> call() {
             if (!hasAlreadyBeenCalled) {
                 hasAlreadyBeenCalled = true;
-                return Optional.ofNullable(callable.get());
+                return Option.of(callable.get());
             }
-            return Optional.empty();
+            return Option.empty();
         }
 
         @Override

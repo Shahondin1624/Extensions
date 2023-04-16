@@ -2,8 +2,14 @@ package boxedtypes.box;
 
 import boxedtypes.option.Option;
 
+/**
+ * A container that can be used to provide a reference to a value that can be shared between multiple objects or threads
+ * even when the initial value is null
+ *
+ * @param <E> type of the stored value
+ */
 public class Box<E> implements Boxed<E> {
-    private E value;
+    private volatile E value;
 
     public Box() {
     }

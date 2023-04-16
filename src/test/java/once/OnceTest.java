@@ -1,9 +1,9 @@
 package once;
 
+import boxedtypes.option.Option;
 import org.junit.jupiter.api.Test;
 import unsafe.UnsafeRunnable;
 
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,7 +12,7 @@ public class OnceTest {
     @Test
     public void testOnlyOnceCalledWithoutReturn() {
         AtomicInteger counter = new AtomicInteger();
-        Once once = Once.from(new UnsafeRunnable() { //Lambda can't be used because otherwise the Compiler would infer the type UnsafeSupplier<T>
+        Once<?> once = Once.from(new UnsafeRunnable() { //Lambda can't be used because otherwise the Compiler would infer the type UnsafeSupplier<T>
             @Override
             public void runUnsafe() {
                 counter.getAndIncrement();
@@ -43,13 +43,13 @@ public class OnceTest {
     @Test
     public void testReturnIsEmptyWhenNoValueExpected() {
         AtomicInteger counter = new AtomicInteger();
-        Once once = Once.from(new UnsafeRunnable() { //Lambda can't be used because otherwise the Compiler would infer the type UnsafeSupplier<T>
+        Once<?> once = Once.from(new UnsafeRunnable() { //Lambda can't be used because otherwise the Compiler would infer the type UnsafeSupplier<T>
             @Override
             public void runUnsafe() {
                 counter.getAndIncrement();
             }
         });
-        Optional result = once.call();
+        Option<?> result = once.call();
         assertTrue(result.isEmpty());
     }
 }

@@ -1,9 +1,11 @@
 package datastructures;
 
-import unsafe.Result;
+import boxedtypes.option.Option;
+import result.Result;
 
-import java.util.Optional;
-
+/**
+ * Helper class to effectively introduce typed tuples in java
+ */
 public interface DataSet {
     record Pair<A, B>(A first, B second) implements DataSet {
     }
@@ -67,19 +69,19 @@ public interface DataSet {
             return values().length;
         }
 
-        public Optional<? extends Class<?>> getTypeAt(int index) {
+        public Option<? extends Class<?>> getTypeAt(int index) {
             return getAt(index)
-                    .unwrap(Object::getClass)
-                    .getResult();
+                    .map(Object::getClass)
+                    .asOption();
         }
 
         @SuppressWarnings("unchecked")
-        public <T> Result<T> getValueAt(int index) {
+        public <T> Result<T, ArrayIndexOutOfBoundsException> getValueAt(int index) {
             return getAt(index)
-                    .unwrap(obj -> (T) obj);
+                    .map(val -> (T) val);
         }
 
-        private Result<Object> getAt(int index) {
+        private Result<Object, ArrayIndexOutOfBoundsException> getAt(int index) {
             return Result.of(() -> values[index]);
         }
     }

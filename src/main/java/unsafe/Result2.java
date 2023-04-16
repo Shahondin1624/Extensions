@@ -4,12 +4,12 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-public class Result<E> {
+@Deprecated
+public class Result2<E> {
     private E ok;
     private Throwable err;
 
-    private Result(Supplier<E> func) {
+    private Result2(Supplier<E> func) {
         if (func == null) {
             err = new IllegalArgumentException("The passed function was null!");
             return;
@@ -58,8 +58,8 @@ public class Result<E> {
         return getResult().map(function).orElseThrow(() -> new NoResultPresentException(err));
     }
 
-    public <F> Result<F> unwrap(UnsafeFunction<E, F> function) {
-        return new Result<>(() -> function.apply(ok));
+    public <F> Result2<F> unwrap(UnsafeFunction<E, F> function) {
+        return new Result2<>(() -> function.apply(ok));
     }
 
     public void unwrapException(UnsafeConsumer<Throwable> consumer) {
@@ -78,7 +78,7 @@ public class Result<E> {
         }
     }
 
-    public static <E> Result<E> of(UnsafeSupplier<E> func) {
-        return new Result<>(func);
+    public static <E> Result2<E> of(UnsafeSupplier<E> func) {
+        return new Result2<>(func);
     }
 }
