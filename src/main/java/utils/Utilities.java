@@ -1,7 +1,10 @@
 package utils;
 
+import boxedtypes.option.Option;
+
 import java.util.StringJoiner;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 public class Utilities {
     public static String formatNanos(long nanos) {
@@ -49,5 +52,20 @@ public class Utilities {
 
     public static String logError(Throwable t) {
         return t.getClass().getName() + ": " + t.getMessage() + "\n" + getStackTraceAsString(t);
+    }
+
+    public static boolean booleanEqual(boolean... booleans) {
+        for (int i = 1; i < booleans.length; i++) {
+            if (booleans[i] != booleans[0]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static <E> Option<E> getAsOption(Supplier<Boolean> hasNext, Supplier<E> iterator) {
+        if (hasNext.get()) {
+            return Option.of(iterator.get());
+        } else return Option.empty();
     }
 }

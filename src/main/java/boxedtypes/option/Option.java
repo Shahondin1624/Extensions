@@ -3,6 +3,7 @@ package boxedtypes.option;
 import unsafe.UnsafeConsumer;
 import unsafe.UnsafeFunction;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -71,6 +72,10 @@ public sealed interface Option<E> permits None, Some {
         } else {
             throw supplier.get();
         }
+    }
+
+    default E orElseThrow() {
+        return orElseThrow(() -> new NoSuchElementException("No value present"));
     }
 
     /**
