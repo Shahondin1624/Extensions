@@ -8,6 +8,12 @@ import unsafe.UnsafeSupplier;
 
 import java.util.Objects;
 
+/**
+ * Attempt to mimic Rust's Result enum. Objects of this type should best be handled with pattern matching.
+ *
+ * @param <T>   Generic type of possible value
+ * @param <Err> Generic type of possible error
+ */
 public sealed interface Result<T, Err extends Throwable> permits Error, Ok {
     default boolean isError() {
         return switch (this) {
@@ -42,6 +48,10 @@ public sealed interface Result<T, Err extends Throwable> permits Error, Ok {
         }
     }
 
+    /**
+     * Effectively discards the possible error-value and instead just
+     * @return a {@link None} instead (or {@link Some} should a value be present)
+     */
     default Option<T> asOption() {
         if (this instanceof Ok<T, Err> ok) {
             return new Some<>(ok.ok());

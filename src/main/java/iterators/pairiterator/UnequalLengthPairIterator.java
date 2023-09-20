@@ -2,15 +2,16 @@ package iterators.pairiterator;
 
 import boxedtypes.option.Option;
 import datastructures.DataSet;
+import iterators.UnequalLengthTupleIterator;
 import utils.Utilities;
 
 import java.util.Iterator;
 
-public class UnequalLengthPairIterator<A, B> implements PairIterator<Option<A>, Option<B>> {
+public final class UnequalLengthPairIterator<A, B> implements PairIterator<Option<A>, Option<B>>, UnequalLengthTupleIterator {
     private final Iterator<A> first;
     private final Iterator<B> second;
 
-    protected UnequalLengthPairIterator(Iterator<A> first, Iterator<B> second) {
+    UnequalLengthPairIterator(Iterator<A> first, Iterator<B> second) {
         this.first = first;
         this.second = second;
     }

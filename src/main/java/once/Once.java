@@ -6,11 +6,11 @@ import unsafe.UnsafeSupplier;
 
 /**
  * Provides an easy way to ensure code is only called once. Can return a value or not, depending on requirements.
- * By default, checked exceptions are disabled, all exception handling has to be done manually
+ * By default, checked exceptions are disabled; all exception handling has to be done manually
  *
  * @param <T> type of optional return value
  */
-public interface Once<T> {
+public sealed interface Once<T> {
     Option<T> call();
 
     boolean wasAlreadyCalled();
@@ -26,7 +26,7 @@ public interface Once<T> {
         });
     }
 
-    class OnceInternal<T> implements Once<T> {
+    final class OnceInternal<T> implements Once<T> {
         private boolean hasAlreadyBeenCalled = false;
         private final UnsafeSupplier<T> callable;
 

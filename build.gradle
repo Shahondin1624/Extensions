@@ -9,6 +9,12 @@ repositories {
     mavenCentral()
 }
 
+java {
+//    sourceCompatibility = JavaVersion.VERSION_21
+//    targetCompatibility = JavaVersion.VERSION_21
+    //Pattern matching finally isn't a preview feature in java 21 anymore, however Gradle is not yet compatible with it
+}
+
 dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.5'
     implementation 'javax.inject:javax.inject:1'
@@ -27,3 +33,4 @@ test {
 tasks.withType(JavaCompile).each {
     it.options.compilerArgs.add('--enable-preview')
 }
+

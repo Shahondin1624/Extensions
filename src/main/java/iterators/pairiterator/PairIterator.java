@@ -2,10 +2,12 @@ package iterators.pairiterator;
 
 import boxedtypes.option.Option;
 import datastructures.DataSet;
+import iterators.TupleIterator;
 
 import java.util.Iterator;
 
-public interface PairIterator<A, B> extends Iterator<DataSet.Pair<A, B>> {
+public sealed interface PairIterator<A, B> extends Iterator<DataSet.Pair<A, B>>, TupleIterator
+        permits EqualLengthPairIterator, UnequalLengthPairIterator {
     static <A, B> PairIterator<A, B> ofEqualLength(Iterator<A> first, Iterator<B> second) {
         return new EqualLengthPairIterator<>(first, second);
     }

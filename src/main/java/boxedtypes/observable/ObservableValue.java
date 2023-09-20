@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Allows storing a type and share it safely. When its internal value changes, it notifies its observers
+ * Allows storing a type and sharing it safely. When its internal value changes, it notifies its observers
  *
  * @param <E>
  */

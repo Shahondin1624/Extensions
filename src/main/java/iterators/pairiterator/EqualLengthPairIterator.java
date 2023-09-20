@@ -1,16 +1,17 @@
 package iterators.pairiterator;
 
 import datastructures.DataSet;
+import iterators.EqualLengthTupleIterator;
 import iterators.IteratorUnequalLengthException;
 import utils.Utilities;
 
 import java.util.Iterator;
 
-public class EqualLengthPairIterator<A, B> implements PairIterator<A, B> {
+public final class EqualLengthPairIterator<A, B> implements PairIterator<A, B>, EqualLengthTupleIterator {
     private final Iterator<A> first;
     private final Iterator<B> second;
 
-    protected EqualLengthPairIterator(Iterator<A> first, Iterator<B> second) {
+    EqualLengthPairIterator(Iterator<A> first, Iterator<B> second) {
         this.first = first;
         this.second = second;
     }

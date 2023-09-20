@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Helper class that lets the caller easily await all those values asynchronously. Those methods will only return when all
  * values have been computed, but the declared execution order does not matter. This enables to compute values that are
- * independent to each other in parallel. Do not use these methods, if your computations are dependent on each other!
+ * independent of each other in parallel. Do not use these methods if your computations are dependent on each other!
  */
 public interface Async {
     @Asynchronous

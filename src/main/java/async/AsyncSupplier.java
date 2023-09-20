@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 @FunctionalInterface
 public interface AsyncSupplier<T> extends UnsafeSupplier<T>, AsyncExecutable {
     default CompletableFuture<T> future() {
-        return CompletableFuture.supplyAsync(() -> get())
+        return CompletableFuture.supplyAsync(this)
                 .exceptionally(throwable -> null);
     }
 

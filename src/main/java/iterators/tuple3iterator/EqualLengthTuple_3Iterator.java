@@ -1,17 +1,18 @@
 package iterators.tuple3iterator;
 
 import datastructures.DataSet;
+import iterators.EqualLengthTupleIterator;
 import iterators.IteratorUnequalLengthException;
 import utils.Utilities;
 
 import java.util.Iterator;
 
-public class EqualLengthTuple_3Iterator<A, B, C> implements Tuple_3Iterator<A, B, C> {
+public final class EqualLengthTuple_3Iterator<A, B, C> implements Tuple_3Iterator<A, B, C>, EqualLengthTupleIterator {
     private final Iterator<A> first;
     private final Iterator<B> second;
     private final Iterator<C> third;
 
-    public EqualLengthTuple_3Iterator(Iterator<A> first, Iterator<B> second, Iterator<C> third) {
+    EqualLengthTuple_3Iterator(Iterator<A> first, Iterator<B> second, Iterator<C> third) {
         this.first = first;
         this.second = second;
         this.third = third;
